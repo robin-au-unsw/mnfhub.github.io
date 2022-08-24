@@ -5,25 +5,56 @@
 function PostID(){
     var QueryString= window.location.search;
     QueryString = QueryString.split('=')[1];
-    document.getElementById("demo").innerHTML = "Your Job Number is: "+ QueryString;
 
-    var IDPack = new Object();
-    IDPack.MNFID = QueryString;
+    IDVer = QueryString.substring(0,3);
 
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://prod-03.australiasoutheast.logic.azure.com:443/workflows/822e84655c84484d8d0fc58d0fbb19b7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2ZkNKTTdaHMerlUlpVHy7vYxvl-JwdvOXlEgkz1PzsY");
+    if(IDVer == "MNF"){
 
-    xhr.setRequestHeader("Accept", "application/json");
-    xhr.setRequestHeader("Content-Type", "application/json");
+      document.getElementById("Welcome").innerHTML = "Thank you for uploading your files to the UNSW Manufacturing Hub";
+      document.getElementById("Instructions").innerHTML = "A staff member will contact you shortly with next steps";
+      document.getElementById("ID").innerHTML = "Your Job Number is: "+ QueryString;
 
-    xhr.onload = () => console.log(xhr.responseText);
-    
-    let data = JSON.stringify(IDPack)
-    xhr.send(data);
 
-    window.setTimeout(function(){
-    window.location.href = "https://www.making.unsw.edu.au/services/manufacturing-hub/";
-    }, 5000);
+      var IDPack = new Object();
+      IDPack.MNFID = QueryString;
+
+      let xhr = new XMLHttpRequest();
+      xhr.open("POST", "https://prod-03.australiasoutheast.logic.azure.com:443/workflows/822e84655c84484d8d0fc58d0fbb19b7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2ZkNKTTdaHMerlUlpVHy7vYxvl-JwdvOXlEgkz1PzsY");
+
+      xhr.setRequestHeader("Accept", "application/json");
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onload = () => console.log(xhr.responseText);
+      
+      let data = JSON.stringify(IDPack)
+      xhr.send(data);
+
+      window.setTimeout(function(){
+      window.location.href = "https://www.making.unsw.edu.au/services/manufacturing-hub/";
+      }, 506600);
+      
+    } else if (IDVer == "E3D"||IDVer =="D3D") {
+        document.getElementById("Welcome").innerHTML = "Thank you for uploading your files to the UNSW 3D Printing Hub";
+        document.getElementById("Instructions").innerHTML = "After our staff reviews your files, you will get an email about next steps";
+        document.getElementById("ID").innerHTML = "Your Job Number is: "+ QueryString;
+        var IDPack = new Object();
+        IDPack.ID = QueryString;
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "https://prod-14.australiasoutheast.logic.azure.com:443/workflows/9c6d0ba32ad648ebb5d00a90f23426fa/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=GKRBfBv3k_G1mGT0kfhyHVhRR1zGcGdIsA0v_ntNLrc");
+
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onload = () => console.log(xhr.responseText);
+        
+        let data = JSON.stringify(IDPack)
+        xhr.send(data);
+
+        window.setTimeout(function(){
+        window.location.href = "https://www.making.unsw.edu.au/services/manufacturing-hub/";
+        }, 506600);
+    }
     
 }
 
@@ -73,13 +104,13 @@ body, html {
 <!-- Header with image -->
 <header class="bgimg w3-display-container w3-grayscale-min" id="home">
   <div class="w3-display-bottomleft w3-center w3-padding-large w3-hide-small">
-    <span class="w3-tag">We are open 10am-6pm M-F</span>
+    <span class="w3-tag">We are open 10am-9pm, Mon - Sat During Term & 10am-6pm, Mon - Sat, during Term Breaks</span>
   </div>
   <div class="w3-display-topmiddle w3-center">
-    <span class="w3-text-white" style="font-size:50px"><br>Thank you for uploading your files to the UNSW Manufacturing Hub.<br></span>
+    <span class="w3-text-white" style="font-size:50px"><br><p id="Welcome"></p><br></span>
   </div>
   <div class="w3-display-bottommiddle w3-center">
-    <span class="w3-text-white" style="font-size:32px">A staff member will contact you shortly with next steps.<br><p id="demo"></p></span>
+    <span class="w3-text-white" style="font-size:32px"><p id="Instructions"></p><br><p id="ID"></p></span>
   </div>
   <div class="w3-display-bottomright w3-center w3-padding-large">
     <span class="w3-text-white">You will be redirected to our website in 5 seconds</span>
